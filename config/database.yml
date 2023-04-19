@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  encoding: unicode
+  database: ig
+  username: root
+  password: ifXhs7yQH7EwnZY4G8iLzUBijrlhPIWY
+  host: dpg-cfj51gha6gductgtho90-a.singapore-postgres.render.com
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
