@@ -1,5 +1,6 @@
 class Api::TestController < ApplicationController
   def index
-    @data = "OK"
+    @data = { params: params, class: params.class }
+    respond
   end
 end
