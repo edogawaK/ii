@@ -51,3 +51,4 @@ gem "acts_as_paranoid"
 gem "pry-rails", :group => :development
 gem "jwt"
 gem "bcrypt"
+gem "json"

@@ -33,7 +33,6 @@ class AuthService
   private
 
   def user_repo
-    @user_repo || @user_repo = UserRepository.new
-    @user_repo
+    @user_repo ||= UserRepository.new
   end
 end

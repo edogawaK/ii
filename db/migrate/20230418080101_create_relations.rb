@@ -7,11 +7,10 @@ class CreateRelations < ActiveRecord::Migration[7.0]
     add_foreign_key :comments, :users
     add_foreign_key :comments, :comics
     add_foreign_key :comments, :comments, column: :reply_id
-    add_foreign_key :comics, :users, column: :author
-    add_foreign_key :chapters, :comics
-    add_foreign_key :comics_categories, :comics
-    
-    add_foreign_key :comics_categories, :categories
+    add_foreign_key :chapters, :comics, column: :comic_id
+    add_foreign_key :comics_genres, :comics, column: :comic_id
+
+    add_foreign_key :comics_genres, :genres, column: :genre_id
     add_foreign_key :pages, :chapters
     add_foreign_key :pages, :images
   end

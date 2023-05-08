@@ -5,3 +5,61 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+class Seeder
+  def initialize()
+    file_comics_content = File.read(Rails.root.join("db", "data", "comics.json"))
+    file_chapters_content = File.read(Rails.root.join("db", "data", "chapters.json"))
+    file_images_content = File.read(Rails.root.join("db", "data", "images.json"))
+
+    @comics = JSON.parse file_comics_content
+    @chapters = JSON.parse file_chapters_content
+    @images = JSON.parse file_images_content
+    @genres = {}
+
+    @comics.each do |comic|
+      comic["genres"].each do |genre|
+        @genres[genre["id"]] = genre
+      end
+    end
+  end
+
+  def seed
+    seed_admins
+    seed_genres
+    seed_comics
+    seed_chapters
+    seed_pages_for_chapters
+  end
+
+  def seed_pages_for_chapters
+    @images.each do |image|
+      orderIndex = 1
+      saved_image = Image.create({ url: image["url"] })
+      page = Page.create({ image_id: saved_image.id, chapter_id: image["chapter_id"], order: orderIndex += 1 })
+    end
+  end
+
+  def seed_chapters
+    @chapters.each do |chapter| Chapter.create({ id: chapter["id"], name: chapter["name"], slug: chapter["slug"], comic_id: chapter["comicId"] }) end
+  end
+
+  def seed_comics
+    @comics.each do |comic|
+      Comic.create({ id: comic["id"], name: comic["title"], slug: comic["slug"],
+                     description: comic["description"], thumbail: comic["avt"] })
+    end
+  end
+
+  def seed_admins
+    User.create({ username: "admin", password: "admin" })
+  end
+
+  def seed_genres
+    @genres.each do |id, genre|
+      Genre.create({ slug: genre["slug"], name: genre["title"], id: genre["id"] })
+    end
+  end
+end
+
+Seeder.new.seed
