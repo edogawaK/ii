@@ -35,19 +35,29 @@ class Seeder
   def seed_pages_for_chapters
     @images.each do |image|
       orderIndex = 1
-      saved_image = Image.create({ url: image["url"] })
-      page = Page.create({ image_id: saved_image.id, chapter_id: image["chapter_id"], order: orderIndex += 1 })
+      page = Page.create({ url: image["url"], chapter_id: image["chapter_id"], order: orderIndex += 1 })
     end
   end
 
   def seed_chapters
-    @chapters.each do |chapter| Chapter.create({ id: chapter["id"], name: chapter["name"], slug: chapter["slug"], comic_id: chapter["comicId"] }) end
+    @chapters.each do |chapter|
+      puts "seed"
+      Chapter.create({ id: chapter["id"], name: chapter["name"], slug: chapter["slug"], comic_id: chapter["comicId"] })
+    end
   end
 
   def seed_comics
     @comics.each do |comic|
-      Comic.create({ id: comic["id"], name: comic["title"], slug: comic["slug"],
-                     description: comic["description"], thumbail: comic["avt"] })
+      comic_entity = Comic.create({ id: comic["id"], name: comic["title"], slug: comic["slug"],
+                                    description: comic["description"], thumbail: comic["avt"] })
+      seed_genres_for_comic(comic_entity, comic["genres"])
+    end
+  end
+
+  def seed_genres_for_comic(comic, genres)
+    genres.each do |genre|
+      genre_entity = Genre.find(genre["id"])
+      comic.genres.push(genre_entity)
     end
   end
 

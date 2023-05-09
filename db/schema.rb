@@ -74,12 +74,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_080101) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "images", id: :string, force: :cascade do |t|
-    t.text "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "notifications", id: :string, force: :cascade do |t|
     t.text "content"
     t.text "url"
@@ -89,9 +83,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_080101) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "pages", primary_key: ["chapter_id", "image_id"], force: :cascade do |t|
-    t.string "chapter_id", null: false
-    t.string "image_id", null: false
+  create_table "pages", force: :cascade do |t|
+    t.string "chapter_id"
+    t.string "url"
     t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -99,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_080101) do
 
   create_table "roles", id: :string, force: :cascade do |t|
     t.string "name"
+    t.string "right"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -124,6 +119,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_080101) do
   add_foreign_key "follows", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "pages", "chapters"
-  add_foreign_key "pages", "images"
   add_foreign_key "users", "roles"
 end

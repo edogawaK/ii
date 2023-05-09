@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       post "signin", to: "auth#signin"
       post "signup", to: "auth#signup"
     end
-    get "testerwrw/:id", to: "testok#index"
+
+    scope path: "comics" do
+      get "/", to: "comic#get_comics"
+    end
   end
 end

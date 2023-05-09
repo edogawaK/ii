@@ -4,12 +4,13 @@ class CreateTable < ActiveRecord::Migration[7.0]
       t.string :username, index: { unique: true }
       t.string :password
       t.integer :status, default: 1
-      t.string :role_id, null: true
+      t.string :role_id
       t.timestamps
     end
 
     create_table(:roles, id: :string) do |t|
       t.string :name
+      t.string :right
       t.integer :status, default: 1
       t.timestamps
     end
@@ -55,11 +56,6 @@ class CreateTable < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    create_table(:images, id: :string) do |t|
-      t.text :url
-      t.timestamps
-    end
-
     create_table(:genres, id: :string) do |t|
       t.string :slug
       t.string :name
@@ -83,9 +79,9 @@ class CreateTable < ActiveRecord::Migration[7.0]
       t.string :genre_id
     end
 
-    create_table(:pages, primary_key: [:chapter_id, :image_id]) do |t|
+    create_table(:pages) do |t|
       t.string :chapter_id
-      t.string :image_id
+      t.string :url
       t.integer :order
       t.timestamps
     end
