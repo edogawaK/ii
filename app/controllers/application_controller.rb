@@ -1,22 +1,16 @@
 class ApplicationController < ActionController::API
   rescue_from StandardError, with: :handle_error
 
-  def respond
-    render :json => {
-             message: @message || "OK",
-             status_code: @status_code || 200,
-             data: @data,
+  def respond(message: "OK", status_code: 200, data: nil)
+    render json: {
+             message: message,
+             status_code: status_code,
+             data: data,
            },
-           :status => @status_code
-    @message = nil
-    @data = nil
-    @status_code = nil
+           :status => status_code
   end
 
   def handle_error(e)
-    @message = "Error"
-    @status_code = 500
-    @data = e.message
-    respond
+    respond(message: "Error", status_code: 500, data: e.message)
   end
 end

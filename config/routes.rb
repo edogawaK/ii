@@ -9,8 +9,12 @@ Rails.application.routes.draw do
       post "signup", to: "auth#signup"
     end
 
-    scope path: "comics" do
-      get "/", to: "comic#get_comics"
+    scope module: "user" do
+      resources :comics, only: [:index, :show]
+      resources :chapters, only: [:index, :show]
+    end
+
+    namespace "admin" do
     end
   end
 end
